@@ -1,0 +1,164 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "DPE-.YYYY.-.####",
+ "creation": "2026-10-15 17:45:20.091519",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_hgwp",
+  "posting_date",
+  "project",
+  "boq",
+  "column_break_otat",
+  "sub_area",
+  "supervisor",
+  "amended_from",
+  "progress_details_section",
+  "previous_executed_qty",
+  "planned_qty",
+  "remaining_qty",
+  "column_break_minp",
+  "today_executed_qty",
+  "total_executed_qty",
+  "completion_",
+  "item_progress_section",
+  "item_progress"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_hgwp",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Daily Progress Entry",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Posting Date"
+  },
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Project",
+   "options": "Project",
+   "reqd": 1
+  },
+  {
+   "fieldname": "boq",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "BOQ",
+   "options": "BOM",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_otat",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sub_area",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Sub Area",
+   "options": "Task",
+   "reqd": 1
+  },
+  {
+   "fieldname": "supervisor",
+   "fieldtype": "Link",
+   "label": "Supervisor",
+   "options": "User"
+  },
+  {
+   "fieldname": "progress_details_section",
+   "fieldtype": "Section Break",
+   "label": "Progress Details"
+  },
+  {
+   "fieldname": "previous_executed_qty",
+   "fieldtype": "Float",
+   "label": "Previous Executed Qty"
+  },
+  {
+   "fieldname": "planned_qty",
+   "fieldtype": "Float",
+   "label": "Planned Qty"
+  },
+  {
+   "fieldname": "remaining_qty",
+   "fieldtype": "Float",
+   "label": "Remaining Qty"
+  },
+  {
+   "fieldname": "column_break_minp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "today_executed_qty",
+   "fieldtype": "Float",
+   "label": "Today Executed Qty"
+  },
+  {
+   "fieldname": "total_executed_qty",
+   "fieldtype": "Float",
+   "label": "Total Executed Qty"
+  },
+  {
+   "fieldname": "completion_",
+   "fieldtype": "Percent",
+   "label": "Completion %"
+  },
+  {
+   "fieldname": "item_progress_section",
+   "fieldtype": "Section Break",
+   "label": "Item Progress"
+  },
+  {
+   "fieldname": "item_progress",
+   "fieldtype": "Table",
+   "label": "Item Progress",
+   "options": "Daily Progress Item"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-10-15 18:06:27.578635",
+ "modified_by": "Administrator",
+ "module": "Daily Progress",
+ "name": "Daily Progress Entry",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
