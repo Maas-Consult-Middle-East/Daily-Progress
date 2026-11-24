@@ -362,3 +362,115 @@ function format_number(value) {
         .replace(/\.?0+$/, '');
 
 }
+
+
+frappe.ui.form.on("BOM", {
+    setup(frm) {
+        frm.set_query("item", function () {
+
+            // Detect project BOQs dynamically.
+            // No project or company is hardcoded.
+            const is_project_boq =
+                !!frm.doc.project &&
+                (frm.doc.items || []).some(
+                    row => !!row.custom_sub_area
+                );
+
+            if (is_project_boq) {
+                // Allow stock and non-stock BOQ header items.
+                return {
+                    query: "erpnext.manufacturing.doctype.bom.bom.item_query",
+                    filters: {
+                        is_fixed_asset: 0
+                    }
+                };
+            }
+
+            // Preserve ERPNext's normal manufacturing filters.
+            if (frm.doc.is_phantom_bom) {
+                return {
+                    query: "erpnext.manufacturing.doctype.bom.bom.item_query",
+                    filters: {
+                        is_stock_item: 0,
+                        is_fixed_asset: 0
+                    }
+                };
+            }
+
+            return {
+                query: "erpnext.manufacturing.doctype.bom.bom.item_query",
+                filters: {
+                    is_stock_item: 1
+                }
+            };
+        });
+    }
+});
+
+frappe.ui.form.on("BOM", {
+    async refresh(frm) {
+
+        // Check that Sub Area is linked to Task.
+        const sub_area_field = frappe.meta.get_docfield(
+            "BOM Item",
+            "custom_sub_area",
+            frm.doc.name
+        );
+
+        if (
+            !sub_area_field ||
+            sub_area_field.fieldtype !== "Link" ||
+            sub_area_field.options !== "Task"
+        ) {
+            return;
+        }
+
+        // Collect unique Task IDs from all BOQ components.
+        const task_ids = [
+            ...new Set(
+                (frm.doc.items || [])
+                    .map(row => row.custom_sub_area)
+                    .filter(Boolean)
+            )
+        ];
+
+        if (!task_ids.length) return;
+
+        try {
+
+            // Fetch actual Task names in batches.
+            for (let i = 0; i < task_ids.length; i += 100) {
+
+                const batch = task_ids.slice(i, i + 100);
+
+                const tasks = await frappe.db.get_list("Task", {
+                    fields: ["name", "subject"],
+                    filters: {
+                        name: ["in", batch]
+                    },
+                    limit_page_length: 100
+                });
+
+                // Store readable titles for the grid.
+                tasks.forEach(task => {
+                    if (task.subject) {
+                        frappe.utils.add_link_title(
+                            "Task",
+                            task.name,
+                            task.subject
+                        );
+                    }
+                });
+            }
+
+            // Redraw the component grid using Task titles.
+            frm.refresh_field("items");
+
+        } catch (error) {
+            console.error(
+                "Unable to load Sub Area names:",
+                error
+            );
+        }
+    }
+});

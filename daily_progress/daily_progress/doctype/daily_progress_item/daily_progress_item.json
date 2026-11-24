@@ -2,7 +2,7 @@
  "actions": [],
  "allow_bulk_edit": 1,
  "allow_rename": 1,
- "creation": "2026-10-15 17:59:24.192549",
+ "creation": "2026-10-17 12:03:45.172009",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
@@ -14,7 +14,9 @@
   "total_executed_qty",
   "remaining_qty",
   "completion_",
-  "boq_item"
+  "boq_item",
+  "mark_as_completed",
+  "delay_reason"
  ],
  "fields": [
   {
@@ -63,16 +65,28 @@
   {
    "fieldname": "boq_item",
    "fieldtype": "Data",
-   "label": "BOQ Item Row",
    "hidden": 1,
+   "label": "BOQ Item Row",
    "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "mark_as_completed",
+   "fieldtype": "Check",
+   "label": "Mark as Completed"
+  },
+  {
+   "fieldname": "delay_reason",
+   "fieldtype": "Small Text",
+   "label": "Delay Reason",
+   "mandatory_depends_on": "eval:doc.today_executed_qty == 0 && doc.remaining_qty > 0 && doc.mark_as_completed != 1"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-10-15 18:06:15.777243",
+ "modified": "2026-11-24 17:25:57.281675",
  "modified_by": "Administrator",
  "module": "Daily Progress",
  "name": "Daily Progress Item",
